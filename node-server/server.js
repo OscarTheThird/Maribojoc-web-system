@@ -5,13 +5,12 @@ const admin = require('firebase-admin');
 const path = require('path');
 
 const app = express();
-app.use(cors()); // Enable CORS
-app.use(express.json()); // Parse JSON bodies
+app.use(cors());
+app.use(express.json());
 
 // Firebase service account setup
 const serviceAccount = require('./firebase-sevice-account.json');
 
-// Initialize Firebase Admin
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://sia101-activity2-ultiren.firebaseio.com'
@@ -19,17 +18,24 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-// Serve static files from the "styles" directory
-app.use(express.static('styles'));
+// Serve static files (styles and frontend JavaScript)
+app.use('/styles', express.static(path.join(__dirname, '../styles')));
+app.use('/functions', express.static(path.join(__dirname, '../functions')));
+app.use('/image', express.static(path.join(__dirname, '../image')));
 
 // Default route to serve `index.html`
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'styles', 'index.html'));
+    res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 // Route to serve `map.html`
 app.get('/map', (req, res) => {
-    res.sendFile(path.join(__dirname, 'styles', 'map.html'));
+    res.sendFile(path.join(__dirname, '../map.html'));
+});
+
+// Route to serve `home.html`
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(__dirname, '../home.html'));
 });
 
 // Endpoint to send notification data to webhook.site and store in Firestore
@@ -42,12 +48,10 @@ app.post('/send-webhook', async (req, res) => {
     }
 
     try {
-        // Forward request to webhook.site
         const response = await axios.post(webhookUrl, req.body, {
             headers: { 'Content-Type': 'application/json' },
         });
 
-        // Store notification in Firestore under the UID
         const userNotificationsRef = db.collection('notifications').doc(uid).collection('locations');
         await userNotificationsRef.add({ action, timestamp });
 
@@ -65,7 +69,6 @@ app.get('/notifications/:uid', async (req, res) => {
     try {
         const snapshot = await db.collection('notifications').doc(uid).collection('locations').get();
         const userNotifications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
         res.status(200).json({ notifications: userNotifications });
     } catch (error) {
         console.error('Error retrieving notifications:', error);
@@ -80,7 +83,6 @@ app.get('/login-history/:uid', async (req, res) => {
     try {
         const snapshot = await db.collection('loginHistory').doc(uid).collection('history').get();
         const loginHistory = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
         res.status(200).json({ loginHistory });
     } catch (error) {
         console.error('Error retrieving login history:', error);
@@ -98,16 +100,11 @@ app.post('/login', async (req, res) => {
     }
 
     try {
-        console.log(`Attempting to write login history for UID: ${uid}, Email: ${email}`);
-
         const docRef = await db.collection('loginHistory').doc(uid).collection('history').add({
             email,
             time: new Date().toISOString(),
         });
 
-        console.log('Login history written with ID:', docRef.id);
-
-        // Forward request to webhook.site
         const response = await axios.post(webhookUrl, req.body, {
             headers: { 'Content-Type': 'application/json' },
         });

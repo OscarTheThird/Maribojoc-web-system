@@ -10,32 +10,29 @@ app.use(express.json());
 
 // Firebase service account setup
 const serviceAccount = require('./firebase-sevice-account.json');
-
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://sia101-activity2-ultiren.firebaseio.com'
 });
-
 const db = admin.firestore();
 
-// Serve static files (styles and frontend JavaScript)
+// Serve static files (CSS, JS, and images) from their respective directories
 app.use('/styles', express.static(path.join(__dirname, '../styles')));
 app.use('/functions', express.static(path.join(__dirname, '../functions')));
 app.use('/image', express.static(path.join(__dirname, '../image')));
 
-// Default route to serve `index.html`
+// Serve HTML pages
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../index.html'));
 });
-
-// Route to serve `map.html`
 app.get('/map', (req, res) => {
     res.sendFile(path.join(__dirname, '../map.html'));
 });
-
-// Route to serve `home.html`
 app.get('/home', (req, res) => {
     res.sendFile(path.join(__dirname, '../home.html'));
+});
+app.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname, '../about.html'));
 });
 
 // Endpoint to send notification data to webhook.site and store in Firestore
@@ -48,14 +45,10 @@ app.post('/send-webhook', async (req, res) => {
     }
 
     try {
-        const response = await axios.post(webhookUrl, req.body, {
-            headers: { 'Content-Type': 'application/json' },
-        });
-
+        await axios.post(webhookUrl, req.body, { headers: { 'Content-Type': 'application/json' } });
         const userNotificationsRef = db.collection('notifications').doc(uid).collection('locations');
         await userNotificationsRef.add({ action, timestamp });
-
-        res.status(200).json({ message: 'Data sent to webhook successfully', data: response.data });
+        res.status(200).json({ message: 'Data sent to webhook successfully' });
     } catch (error) {
         console.error('Error sending data to webhook:', error);
         res.status(500).json({ message: 'Failed to send data to webhook', error: error.message });
@@ -100,24 +93,21 @@ app.post('/login', async (req, res) => {
     }
 
     try {
-        const docRef = await db.collection('loginHistory').doc(uid).collection('history').add({
+        await db.collection('loginHistory').doc(uid).collection('history').add({
             email,
             time: new Date().toISOString(),
         });
 
-        const response = await axios.post(webhookUrl, req.body, {
-            headers: { 'Content-Type': 'application/json' },
-        });
-
+        await axios.post(webhookUrl, req.body, { headers: { 'Content-Type': 'application/json' } });
         res.status(200).json({ message: 'Login notification sent successfully.' });
     } catch (error) {
-        console.error('Error sending data to webhook or writing to Firestore:', error);
-        res.status(500).json({ message: 'Failed to send data to webhook or save login history', error: error.message });
+        console.error('Error sending data to webhook or saving login history:', error);
+        res.status(500).json({ message: 'Failed to send data or save login history', error: error.message });
     }
 });
 
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

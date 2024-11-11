@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors'); // Import CORS
+const cors = require('cors');
 const axios = require('axios');
 const admin = require('firebase-admin');
 
@@ -7,13 +7,13 @@ const app = express();
 app.use(cors()); // Enable CORS
 app.use(express.json());
 
-// Provide the path to your service account key JSON file
-const serviceAccount = require('./firebase-sevice-account.json');
+// Decode Firebase service account JSON from environment variable
+const serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_CONFIG_BASE64, 'base64').toString('utf-8'));
 
 // Initialize Firebase Admin
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://sia101-activity2-ultiren.firebaseio.com' // Update this to your database URL
+    databaseURL: 'https://sia101-activity2-ultiren.firebaseio.com' // Update this to your Firebase database URL
 });
 
 const db = admin.firestore();
@@ -31,9 +31,7 @@ app.post('/send-webhook', async (req, res) => {
     try {
         // Forward the request to webhook.site
         const response = await axios.post(webhookUrl, req.body, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
         });
 
         // Store notifications in Firestore under the UID
@@ -55,7 +53,6 @@ app.post('/send-webhook', async (req, res) => {
 
 // Endpoint to retrieve notifications for a specific UID from Firestore
 app.get('/notifications/:uid', async (req, res) => {
-    
     const uid = req.params.uid;
 
     try {
@@ -88,7 +85,6 @@ app.get('/login-history/:uid', async (req, res) => {
             loginHistory.push({ id: doc.id, ...doc.data() });
         });
 
-        // Send the login history back to the client
         res.status(200).json({ loginHistory });
     } catch (error) {
         console.error('Error retrieving login history:', error);
@@ -96,8 +92,7 @@ app.get('/login-history/:uid', async (req, res) => {
     }
 });
 
-
-
+// Endpoint to log a user's login action and forward to webhook
 app.post('/login', async (req, res) => {
     const webhookUrl = 'https://webhook.site/a4927484-dc12-4ff5-be86-1adff2b3298b';
     const { email, uid } = req.body;
@@ -132,8 +127,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-
-
-app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
+// Start server
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });

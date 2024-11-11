@@ -145,38 +145,23 @@ document.getElementById('loginHistory')?.addEventListener('click', (event) => {
 
 // Function to retrieve login history
 async function retrieveLoginHistory() {
-    const user = auth.currentUser; // Check if the user is logged in
-    if (!user) {
-        console.error("User is not logged in.");
-        alert('You need to log in to view your login history.');
-        return;
-    }
-
-    const uid = user.uid;
     const loginList = document.getElementById('loginList');
-    loginList.innerHTML = ''; // Clear any existing login history entries
+    loginList.innerHTML = ''; // Clear previous login history
 
     try {
-        const response = await fetch(`https://maribojoc-web-system-1.onrender.com/login-history/${uid}`); // Fixed template string
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`); // Fixed template string
-        }
-        
+        const response = await fetch(`http://localhost:3000/retrieve-webhook`); // Adjust to your server's route
         const loginData = await response.json();
 
         // Check if there are any login history records
-        if (loginData.loginHistory.length === 0) {
+        if (loginData.data.length === 0) {
             loginList.innerHTML = '<p>No login history found.</p>';
         } else {
-            // Sort and display each login timestamp
-            loginData.loginHistory
-                .sort((a, b) => new Date(b.time) - new Date(a.time))
-                .forEach((entry) => {
-                    const loginItem = document.createElement('div');
-                    loginItem.className = 'login-item';
-                    loginItem.innerHTML = `<p>Log In Time: ${new Date(entry.time).toLocaleString()}</p>`; // Fixed template string
-                    loginList.appendChild(loginItem);
-                });
+            loginData.data.forEach((entry) => {
+                const loginItem = document.createElement('div');
+                loginItem.className = 'login-item';
+                loginItem.innerHTML = `<p>Log In Time: ${new Date(entry.time).toLocaleString()}</p>`;
+                loginList.appendChild(loginItem);
+            });
         }
     } catch (error) {
         console.error('Error retrieving login history:', error);
@@ -184,39 +169,32 @@ async function retrieveLoginHistory() {
     }
 }
 
-// Function to retrieve locations
 async function retrieveLocations() {
-    const user = auth.currentUser; // Check current user
-    if (!user) {
-        console.error("User is not logged in.");
-        alert('You need to log in to view notifications.'); // Alert if user is not logged in
-        return;
-    }
-
-    const uid = user.uid;
     const notificationList = document.getElementById('notificationList');
     notificationList.innerHTML = ''; // Clear previous notifications
 
     try {
-        const response = await fetch(`https://maribojoc-web-system-1.onrender.com/notifications/${uid}`); // Fixed template string
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`); // Fixed template string
-        }
+        const response = await fetch(`http://localhost:3000/retrieve-webhook`); // Adjust to your server's route
         const webhookData = await response.json();
 
-        // Update notificationCount to match the length of the fetched notifications
-        notificationCount = webhookData.notifications.length;
-        document.getElementById('notificationCount').textContent = notificationCount; // Update the count display
+        // Log the response to see its structure
+        console.log("Webhook Data:", webhookData);
 
-        // Clear the notification list if there are no notifications
-        if (notificationCount === 0) {
+        // Check if webhookData.data exists and is an array
+        if (!Array.isArray(webhookData.data)) {
+            console.error("Unexpected data format:", webhookData.data);
+            notificationList.innerHTML = '<p>Unexpected data format received.</p>';
+            return;
+        }
+
+        // Proceed if webhookData.data is an array
+        if (webhookData.data.length === 0) {
             notificationList.innerHTML = '<p>No notifications found.</p>';
         } else {
-            webhookData.notifications.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            webhookData.notifications.forEach((data) => {
+            webhookData.data.forEach((data) => {
                 const notificationItem = document.createElement('div');
                 notificationItem.className = 'notifi-item';
-                notificationItem.innerHTML = `<div class="text"><h4>Location: ${data.action}, Time: ${new Date(data.timestamp).toLocaleString()}</h4></div>`; // Fixed template string
+                notificationItem.innerHTML = `<div class="text"><h4>Location: ${data.action}, Time: ${new Date(data.timestamp).toLocaleString()}</h4></div>`;
                 notificationList.appendChild(notificationItem);
             });
         }
@@ -241,7 +219,7 @@ function sendWebhookNotification(action) {
         timestamp: new Date().toISOString(),
     };
 
-    fetch('https://maribojoc-web-system-1.onrender.com/send-webhook', {
+    fetch('http://localhost:3000/send-webhook', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

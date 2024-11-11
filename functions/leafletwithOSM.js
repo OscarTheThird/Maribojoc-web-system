@@ -157,7 +157,7 @@ async function retrieveLoginHistory() {
     loginList.innerHTML = ''; // Clear any existing login history entries
 
     try {
-        const response = await fetch(`https://maribojoc-web-system-1.onrender.com/${uid}`); // Fixed template string
+        const response = await fetch(`http://localhost:3000/login-history/${uid}`); // Fixed template string
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`); // Fixed template string
         }
@@ -198,7 +198,7 @@ async function retrieveLocations() {
     notificationList.innerHTML = ''; // Clear previous notifications
 
     try {
-        const response = await fetch(`https://maribojoc-web-system-1.onrender.com/${uid}`); // Fixed template string
+        const response = await fetch(`http://localhost:3000/notifications/${uid}`); // Fixed template string
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`); // Fixed template string
         }
@@ -241,7 +241,7 @@ function sendWebhookNotification(action) {
         timestamp: new Date().toISOString(),
     };
 
-    fetch('https://maribojoc-web-system-1.onrender.com/send-webhook', {
+    fetch('http://localhost:3000/send-webhook', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

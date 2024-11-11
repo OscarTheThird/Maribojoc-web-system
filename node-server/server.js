@@ -7,6 +7,7 @@ const app = express();
 app.use(cors()); // Enable CORS
 app.use(express.json());
 
+app.use(express.static(__dirname));
 // Decode Firebase service account JSON from environment variable
 const serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_CONFIG_BASE64, 'base64').toString('utf-8'));
 

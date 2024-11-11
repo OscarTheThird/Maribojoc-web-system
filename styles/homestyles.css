@@ -1,0 +1,452 @@
+:root{
+    --pink:#e84393;
+}
+
+*{
+    margin:0; padding:0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    outline: none; border:none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: .2s linear;
+}
+
+html{
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    overflow-x: hidden;
+}
+
+section{
+    padding:2rem 9%;
+}
+
+.heading{
+    text-align: center;
+    font-size: 4rem;
+    color:#333;
+    padding:1rem;
+    margin:2rem 0;
+    background:rgba(255, 51, 153,.05);
+}
+
+.heading span{
+    color:var(--pink);
+}
+
+.btn{
+    display: inline-block;
+    margin-top: 1rem;
+    border-radius: 5rem;
+    background:#333;
+    color:#fff;
+    padding:.9rem 3.5rem;
+    cursor: pointer;
+    font-size: 1.7rem;
+}
+
+.btn:hover{
+    background:var(--pink);
+}
+
+/* Header styling */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem 9%;
+    background: aqua;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+header .logo {
+    font-size: 2.5rem;
+    color: #333;
+    font-weight: bolder;
+}
+
+header .logo span {
+    color: var(--pink);
+}
+
+header .navbar a {
+    font-size: 2rem;
+    padding: 0 1.5rem;
+    color: #666;
+}
+
+header .navbar a:hover {
+    color: var(--pink);
+}
+
+header .icons {
+    position: relative; /* Allow absolute positioning of the badge */
+}
+
+header .icons a,
+header .icons i {
+    font-size: 2.5rem;
+    color: #333;
+    margin-left: 1.5rem;
+}
+
+header .icons a:hover,
+header .icons i:hover {
+    color: var(--pink);
+}
+
+header #toggler {
+    display: none;
+}
+
+header .fa-bars {
+    font-size: 3rem;
+    color: #333;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    border: 0.1rem solid rgba(0, 0, 0, 0.3);
+    display: none;
+}
+
+.home{
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    background:url("/image/1.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+
+
+.home .content{
+    max-width: 50rem;
+}
+
+.home .content h3{
+    font-size: 4rem;
+    color:#fff;
+}
+
+.home .content span{
+    font-size: 3.5rem;
+    color: aqua;
+    padding:1rem 0;
+    line-height: 1.5;
+}
+
+.home .content p{
+    font-size: 1.5rem;
+    color: #eee;
+    padding:1rem 0;
+    line-height: 1.5;
+}
+
+
+
+
+/*=============== CONTACTS ===============*/
+.contact__container {
+    padding: 15px 9%;
+    padding-bottom: 100px;
+}
+
+.contact__container .contact__heading {
+    text-align: center;
+    padding-bottom: 15px;
+    color: #fff;
+    text-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    font-size: 2.5rem; /* Increase font size for heading */
+}
+
+.contact__container .contact__box {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust minmax size as needed */
+    gap: 15px;
+}
+
+.contact__container .contact__box .box {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    border-radius: 5px;
+    background: #fff;
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.contact__container .contact__box .box img {
+    height: 120px; /* Set a fixed height for all images */
+    width: auto; /* Ensure images scale proportionally */
+    margin-bottom: 15px; /* Add spacing below the image */
+}
+
+.contact__container .contact__box .box h2 {
+    color: #444;
+    font-size: 1.5rem; /* Increase font size for heading */
+    padding: 10px 0;
+}
+
+.contact__container .contact__box .box .btn {
+    margin-top: 10px;
+    display: inline-block;
+    background: #333;
+    color: #fff;
+    font-size: 1.2rem; /* Increase font size for button */
+    border-radius: 5px;
+    padding: 8px 25px;
+    text-decoration: none; /* Ensure button looks clickable */
+}
+
+.contact__container .contact__box .box .btn:hover {
+    letter-spacing: 1px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, .3);
+    transform: scale(1.03);
+}
+
+@media screen and (max-width: 768px) {
+    .contact__container {
+        padding: 20px;
+    }
+
+    .contact__container .contact__box {
+        grid-template-columns: 1fr; /* Single column layout on smaller screens */
+    }
+
+    .contact__container .contact__box .box {
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+
+    .contact__container .contact__box .box h2 {
+        font-size: 1.2rem; /* Adjust font size for smaller screens */
+    }
+
+    .contact__container .contact__box .box .btn {
+        font-size: 1rem; /* Adjust font size for smaller screens */
+    }
+}
+
+/* Notification badge */
+.badge {
+    position: absolute;
+    top: -10px; /* Keeps the badge above the icon */
+    right: 30px; /* Move the badge 20px to the left */
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 6px; /* Reduced padding */
+    font-size: 12px; /* Smaller font size */
+    display: flex; /* Optional: to center content */
+    justify-content: center;
+    align-items: center;
+}
+
+
+.notifi-box {
+    width: 300px;
+    height: 300px; /* Set a fixed height */
+    opacity: 0;
+    position: absolute;
+    top: 45px;
+    right: 35px;
+    transition: 1s opacity, 250ms height;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #fff;
+    z-index: 1000; 
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.notifi-item {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    padding: 15px 5px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+.notifi-box h2 {
+    font-size: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    color: #999;
+}
+.notifi-box h2 span {
+    color: #f00;
+}
+
+.notifi-item:hover {
+    background-color: #eee;
+}
+.notifi-item .text h4 {
+    color: #777;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+
+/* Toast styling */
+#toastBox {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 20px;
+    z-index: 1001;
+}
+
+.toast {
+    width: 400px;
+    height: 80px;
+    background: #fff;
+    font-weight: 500;
+    margin: 15px 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    position: relative;
+    transform: translateX(100%);
+    animation: moveleft 0.5s linear forwards;
+    z-index: 1001;
+}
+
+@keyframes moveleft {
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.toast i {
+    margin: 0 20px;
+    font-size: 30px;
+    color: green;
+}
+
+.toast::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: green;
+    animation: anim 6s linear forwards;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* media queries  */
+@media (max-width:991px){
+    
+    html{
+        font-size: 55%;
+    }
+
+    header{
+        padding:2rem;
+    }
+
+    section{
+        padding:2rem;
+    }
+
+    .home{
+        background-position: left;
+    }
+
+}
+
+@media (max-width:768px){
+
+    header .fa-bars{
+        display: block;
+    }
+
+    header .navbar{
+        position:absolute;
+        top:100%; left:0; right:0;
+        background:#eee;
+        border-top: .1rem solid rgba(0,0,0,.1);
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
+
+    header #toggler:checked ~ .navbar{
+        clip-path:polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    header .navbar a{
+        margin:1.5rem;
+        padding:1.5rem;
+        background:#fff;
+        border:.1rem solid rgba(0,0,0,.1);
+        display: block;
+    }
+
+    .home .content h3{
+        font-size: 5rem;
+    }
+
+    .home .content span{
+        font-size: 2.5rem;
+    }
+
+    .icons-container .icons h3{
+        font-size: 2rem;
+    }
+    
+    .icons-container .icons span{
+        font-size: 1.7rem;
+    }
+    
+}
+
+@media (max-width:450px){
+    
+    html{
+        font-size: 50%;
+    }
+
+    .heading{
+        font-size: 3rem;
+    }
+
+}

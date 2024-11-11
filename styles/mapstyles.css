@@ -1,0 +1,325 @@
+:root {
+    --pink: #e84393;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: 0.2s linear;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Header styling */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem 9%;
+    background: linear-gradient(rgba(39,39,39, 0.6), transparent);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+header .logo {
+    font-size: 2.5rem;
+    color: #333;
+    font-weight: bolder;
+}
+
+header .logo span {
+    color: var(--pink);
+}
+
+header .navbar a {
+    font-size: 2rem;
+    padding: 0 1.5rem;
+    color: #333;
+}
+
+header .navbar a:hover {
+    color: var(--pink);
+}
+
+header .icons {
+    position: relative; /* Allow absolute positioning of the badge */
+}
+
+header .icons a,
+header .icons i {
+    font-size: 2.5rem;
+    color: #333;
+    margin-left: 1.5rem;
+}
+
+header .icons a:hover,
+header .icons i:hover {
+    color: var(--pink);
+    cursor: pointer;
+}
+
+header #toggler {
+    display: none;
+}
+
+header .fa-bars {
+    font-size: 3rem;
+    color: #333;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    border: 0.1rem solid rgba(0, 0, 0, 0.3);
+    display: none;
+}
+
+/* Map container */
+#map {
+    position: absolute;
+    top: 60px;
+    height: 884px;
+    width: 100%;
+}
+
+/* Search container */
+.search-container {
+    position: absolute;
+    top: 80px;
+    left: 50px;
+    z-index: 1001;
+    display: flex;
+}
+
+.search-container input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px 0 0 5px;
+}
+
+.search-container button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #45a049;
+}
+
+/* Notification badge */
+.badge {
+    position: absolute;
+    top: -10px; /* Keeps the badge above the icon */
+    right: 30px; /* Move the badge 20px to the left */
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 6px; /* Reduced padding */
+    font-size: 12px; /* Smaller font size */
+    display: flex; /* Optional: to center content */
+    justify-content: center;
+    align-items: center;
+}
+
+
+.notifi-box {
+    width: 300px;
+    height: 300px; /* Set a fixed height */
+    opacity: 0;
+    position: absolute;
+    top: 45px;
+    right: 35px;
+    transition: 1s opacity, 250ms height;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #fff;
+    z-index: 1000; 
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.notifi-item {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    padding: 15px 5px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+.notifi-box h2 {
+    font-size: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    color: #999;
+}
+.notifi-box h2 span {
+    color: #f00;
+}
+
+.notifi-item:hover {
+    background-color: #eee;
+}
+.notifi-item .text h4 {
+    color: #777;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.user-box {
+    width: 150px;
+    height: 150px; /* Adjust height as needed */
+    max-height: 200px;
+    opacity: 0;
+    position: absolute;
+    top: 45px;
+    right: 0px;
+    transition: 1s opacity, 250ms height;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #fff;
+    z-index: 1000; 
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    color: #333;
+}
+
+.user-box a {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.4rem; /* Adjusted font size */
+}
+
+.user-box a.nav-link {
+    font-size: 1.2rem; /* Smaller font size for these links */
+    color: #333;
+}
+
+.user-box a.nav-link:hover {
+    text-decoration: underline;
+    color: var(--pink);
+    cursor: pointer;
+}
+
+#toastBox{
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 20px;
+}
+.toast{
+    width: 400px;
+    height: 80px;
+    background: #fff;
+    font-weight: 500;
+    margin: 15px 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    font-size: medium;
+    display: flex;
+    align-items: center;
+    position: relative;
+    transform: translateX(100%);
+    animation: moveleft 0.5s linear forwards;
+    z-index: 2000;
+}
+@keyframes moveleft{
+    100%{
+        transform: translateX(0);
+    }
+}
+
+.toast i{
+    margin: 0 20px;
+    font-size: 35px;
+    color: green;
+}
+
+
+.toast::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: green;
+    animation: anim 6s linear forwards;
+}
+
+@keyframes anim{
+    100%{
+        width: 0;
+    }
+}
+
+/* Style for the login history box */
+.login-box {
+    width: 300px;
+    max-height: 300px; /* Set maximum height */
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    right: 0px; /* Adjust positioning if needed */
+    transition: opacity 0.3s ease, max-height 0.3s ease; /* Smooth transitions */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #fff;
+    z-index: 900;
+    overflow-y: auto; /* Enable vertical scrolling */
+    opacity: 1;
+}
+
+/* Header for the login history box */
+.login-box h2 {
+    font-size: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    color: #999;
+}
+
+/* Style for each login item in the history */
+.login-item {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    padding: 15px 5px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.login-item:hover {
+    background-color: #eee;
+}
+
+.login-item .text h4 {
+    color: #777;
+    font-size: 40px;
+    margin-top: 10px;
+}
+
+.nav-link{
+    cursor: pointer;
+}

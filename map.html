@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultiren Map</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="/styles/mapstyles.css">
+     <!-- Add header styles -->
+    
+    <script src="https://kit.fontawesome.com/9530d30fab.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <input type="checkbox" name="" id="toggler">
+        <label for="toggler" class="fas fa-bars"></label>
+        
+        <a href="" class="logo">ULTIREN .</a>
+        
+        <nav class="navbar">
+            <a href="#">home</a>
+            <a href="map.html">map</a>
+            <a href="#">about</a>
+        </nav>
+        
+        <!-- Notification icon with badge -->
+        <div class="icons">
+            <i class="fa-solid fa-bell" id="notificationIcon"></i>
+            <span class="badge" id="notificationBadge">0</span>
+            <div id="box" class="notifi-box">
+                <h2>Notifications <span id="notificationCount">0</span></h2>
+                <div id="notificationList"></div>
+            </div>
+        
+            <!-- User icon and user box -->
+            <i class="fas fa-user" id="userIcon"></i>
+            <div class="user-box" id="userBox">
+                <a id="loginHistory" class="nav-link">Login History</a>
+                <div class="login-box" id="loginBox">
+                <div id="loginList"></div>
+                </div>                
+                <a id="logout" class="nav-link">Logout</a>
+                
+            </div>
+        </div>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search location...">
+        <button id="searchButton">Search</button>
+    </div>
+
+    <!-- Map container -->
+    <div id="map"></div>
+    
+    <div id="toastBox"></div>
+
+    <!-- Main script -->
+    <script type="module" src="/functions/leafletwithOSM.js"></script>
+
+    
+</body>
+</html>
